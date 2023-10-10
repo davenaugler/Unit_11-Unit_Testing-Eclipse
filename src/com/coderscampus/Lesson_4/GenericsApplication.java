@@ -40,13 +40,20 @@ public class GenericsApplication {
 		
 	}
 	
+	@Test
 	public void specifying_generic_types_at_method_level() {
-		Transformer<Integer, Double> transformer = new Transformer<>();
-		String transformerOuput = transformer.join(1,2.3);
+//		Transformer<Integer, Double> transformer = new Transformer<>();
+		String transformerOuput = Transformer.join(1000000000L,2.3);
 		System.out.println(transformerOuput);
-		
-	
-		
 	}
-
+	
+	@Test
+	public void wildcard_in_generics() {
+		List<Long> list = new ArrayList<>();
+		list.add(1L); list.add(5L); list.add(100L);
+		String val = Transformer.join(list);
+		System.out.println(val);
+	}
+	
+	
 }
