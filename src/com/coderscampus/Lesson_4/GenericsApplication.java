@@ -27,11 +27,25 @@ public class GenericsApplication {
 		// Leverage generic's inside your code
 		// Need to specify type
 		MyPair<Integer, String> myPair = new MyPair<>(1, "3");
-		int key = myPair.getKey();
-		String value = myPair.getValue();
-		System.out.println("-----");
-		System.out.println(key + " " + value);
-		System.out.println("-----");
+		myPair.getKey();
+		myPair.getValue();
+		// Just coding this out so that I can view the Integer and String
+		// in the console.
+		
+//		int key = myPair.getKey();
+//		String value = myPair.getValue();
+//		System.out.println("-----");
+//		System.out.println(key + " " + value);
+//		System.out.println("-----");
+		
+	}
+	
+	public void specifying_generic_types_at_method_level() {
+		Transformer<Integer, Double> transformer = new Transformer<>();
+		String transformerOuput = transformer.join(1,2.3);
+		System.out.println(transformerOuput);
+		
+	
 		
 	}
 
