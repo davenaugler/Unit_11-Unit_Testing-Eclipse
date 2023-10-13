@@ -1,10 +1,15 @@
 package com.coderscampus.Lesson_5;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import org.junit.jupiter.api.Test;
 
 public class ReflectionApplication {
+	
+	PersonRepository personRepo = new PersonRepository();
+	CatRepository catRepo = new CatRepository();
+	CarRepository carRepo = new CarRepository();
 	
 	@Test
 	public void reflection_test() {
@@ -14,22 +19,27 @@ public class ReflectionApplication {
 		person.setEyeColor("Brown");
 		Method[] methods = person.getClass().getMethods();
 		
+		Cat cat = new Cat();
+		Car car = new Car();
+
+		
 		for (Method method : methods) {
 			System.out.println(method.getName());
 		}
+		
+		save(person, personRepo);
+		save(cat, catRepo);
+		save(car, carRepo); 
 	}
 	
-	public <T> void save(T data) {
-		Class<T> c = (Class<T>) data.getClass();
-		String nameOfClass = c.getName();
-		String nameOfRepository = nameOfClass + "Repository";
+	public <T, R> void save(T obj, R repo) {
+		Class<T> c = (Class<T>) obj.getClass();
 		try {
-			Class<?> repositoryClass = Class.forName(nameOfRepository);
-			Method saveMethod = repositoryClass.getMethod("save");
-//			saveMethod.invoke(saveMethod, null)
-		} catch (ClassNotFoundException | NoSuchMethodException | SecurityException e) {
-			e.printStackTrace();
-			System.out.println("Oops the class: " + nameOfRepository + " doesn't exist");
+			Method saveMethod = repo.getClass().getMethod("save", c);
+			saveMethod.invoke(repo, obj);
+		} catch (NoSuchMethodException | SecurityException | 
+				IllegalAccessException | InvocationTargetException e) {
+			System.err.println("Oops there was an error getting the save method");
 		}
 	}
 	
@@ -42,22 +52,22 @@ public class ReflectionApplication {
 	
 	public void save(Person person) {
 		// Purpose is to save the person to the database
-		// get repository and call the save method on the repo
-		PersonRepoository personRepoository = new PersonRepoository();
+		// get repository and call the save method on the repository
+		PersonRepository personRepoository = new PersonRepository();
 		personRepoository.save(person);
 	}
 	
 	public void save(Cat cat) {
 		// Purpose is to save the person to the database
-		// get repository and call the save method on the repo
-		CatRepoository personRepoository = new CatRepoository();
+		// get repository and call the save method on the repository
+		CatRepository personRepoository = new CatRepository();
 		personRepoository.save(cat);
 	}
 	
 	public void save(Car car) {
 		// Purpose is to save the person to the database
-		// get repository and call the save method on the repo
-		CarRepoository personRepoository = new CarRepoository();
+		// get repository and call the save method on the repository
+		CarRepository personRepoository = new CarRepository();
 		personRepoository.save(car);
 	}
 
