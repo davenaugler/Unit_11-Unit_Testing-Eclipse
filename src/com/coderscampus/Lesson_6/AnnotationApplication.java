@@ -1,21 +1,37 @@
 package com.coderscampus.Lesson_6;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
 public class AnnotationApplication {
-	
+
 	public static void main(String[] args) {
-		
-		// Annotations are sudo interfaces
+
+//		Class<AnnotationApplicationTest> obj = AnnotationApplicationTest.class;
+
 		AnnotationApplicationTest testClass = new AnnotationApplicationTest();
-		MyTest[] annotations = testClass.getClass().getAnnotationsByType(MyTest.class);
+
+		Method[] methods = AnnotationApplicationTest.class.getMethods();
+
+		int testPassed = 0;
+		int testFailed = 0;
+		int testIgnored = 0;
 		
-		for(MyTest myTest:annotations){
-			if (myTest.enabled()) {
-				System.out.println("This, MyTest, is enabled: " + myTest);
-			} else {
-				System.out.println("This, MyTest, is disabled: " + myTest);
+		for (Method method : methods) {
+			MyTest myTest = method.getAnnotation(MyTest.class);
+			if (myTest != null) {
+				try {
+					if (myTest.enabled()) {
+						method.invoke(testClass);
+						testPassed++;
+					} else {
+						testIgnored++;
+					}
+				} catch (Exception e) {
+					testFailed++;
+				}
 			}
 		}
-	
+		System.out.println("Tests passed: " + testPassed + ", Tests failed: " + testFailed + ", Test ignored: " + testIgnored);
 	}
 }
-

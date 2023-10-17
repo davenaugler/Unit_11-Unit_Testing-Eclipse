@@ -14,5 +14,6 @@ public @interface MyTest {
 	// When creating an Annotation you need to tell Java   
 	
 	boolean enabled() default true;
+	String value() default "";
 
 }

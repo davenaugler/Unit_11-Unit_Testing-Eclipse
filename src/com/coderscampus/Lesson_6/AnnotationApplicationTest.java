@@ -9,7 +9,7 @@ public class AnnotationApplicationTest {
 			throw new RuntimeException("This won't throw an exception as the test is disabled");
 	}
 	
-	@MyTest
+	@MyTest("This is a value asssinged to this specific use of this annotation")
 	public void test2() {
 		if(true)
 			throw new RuntimeException("This test failed!");
